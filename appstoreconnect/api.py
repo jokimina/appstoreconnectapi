@@ -65,9 +65,9 @@ class Api:
 		self._debug = False
 		token = self.token  # generate first token
 
-	def __del__(self):
-		if self.submit_stats:
-			self._submit_stats("session_end")
+	# def __del__(self):
+	# 	if self.submit_stats:
+	# 		self._submit_stats("session_end")
 
 	def _generate_token(self):
 		try:
@@ -79,12 +79,16 @@ class Api:
 		return jwt.encode({'iss': self.issuer_id, 'exp': exp, 'aud': 'appstoreconnect-v1'}, key,
 		                   headers={'kid': self.key_id, 'typ': 'JWT'}, algorithm=ALGORITHM).decode('ascii')
 
+
 	def _get_resource(self, Resource, resource_id):
 		url = "%s%s/%s" % (BASE_API, Resource.endpoint, resource_id)
 		if Resource.suffix:
 			url += Resource.suffix
 		payload = self._api_call(url)
-		return Resource(payload.get('data', {}), self)
+		data = payload.get('data', {})
+		if isinstance(data, list):
+			data = data[0]
+		return Resource(data, self)
 
 	def _get_resource_from_payload_data(self, payload):
 		try:
