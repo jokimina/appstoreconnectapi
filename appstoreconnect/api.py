@@ -460,6 +460,14 @@ class Api:
 		"""
 		return self._get_resource(App, app_ip)
 
+	def read_app_infos(self, app_ip):
+		"""
+		:reference: https://developer.apple.com/documentation/appstoreconnectapi/list_all_app_infos_for_an_app
+		:param app_ip:
+		:return: an App resource
+		"""
+		return self._get_resource(AppInfos, app_ip)
+
 	def list_apps(self, filters=None, sort=None):
 		"""
 		:reference: https://developer.apple.com/documentation/appstoreconnectapi/list_apps
