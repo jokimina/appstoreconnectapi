@@ -81,6 +81,8 @@ class Api:
 
 	def _get_resource(self, Resource, resource_id):
 		url = "%s%s/%s" % (BASE_API, Resource.endpoint, resource_id)
+		if Resource.suffix:
+			url += Resource.suffix
 		payload = self._api_call(url)
 		return Resource(payload.get('data', {}), self)
 

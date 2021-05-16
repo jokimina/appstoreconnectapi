@@ -41,6 +41,11 @@ class Resource(ABC):
 	def endpoint(self):
 		pass
 
+	@property
+	@abstractmethod
+	def suffix(self):
+		pass
+
 
 # Beta Testers and Groups
 
@@ -85,6 +90,21 @@ class App(Resource):
 	}
 	documentation = 'https://developer.apple.com/documentation/appstoreconnectapi/app'
 
+class AppInfos(Resource):
+	endpoint = '/v1/apps'
+	suffix = '/appInfos'
+	type = 'appInfos'
+	attributes = ['bundleId', 'name', 'primaryLocale', 'sku']
+	relationships = {
+		'betaLicenseAgreement': {'multiple': False},
+		'preReleaseVersions': {'multiple': True},
+		'betaAppLocalizations': {'multiple': True},
+		'betaGroups': {'multiple': True},
+		'betaTesters': {'multiple': True},
+		'builds': {'multiple': True},
+		'betaAppReviewDetail': {'multiple': False},
+	}
+	documentation = 'https://developer.apple.com/documentation/appstoreconnectapi/app'
 
 class PreReleaseVersion(Resource):
 	endpoint = '/v1/preReleaseVersions'
